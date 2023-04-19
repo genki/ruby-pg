@@ -266,7 +266,7 @@ static void pgresult_init_fnames(VALUE self)
 		int nfields = PQnfields(this->pgresult);
 
 		for( i=0; i<nfields; i++ ){
-			VALUE fname = rb_tainted_str_new2(PQfname(this->pgresult, i));
+			VALUE fname = rb_str_new2(PQfname(this->pgresult, i));
 			PG_ENCODING_SET_NOCHECK(fname, ENCODING_GET(self));
 			this->fnames[i] = rb_obj_freeze(fname);
 			this->nfields = i + 1;
@@ -331,7 +331,7 @@ pgresult_result_status(VALUE self)
 static VALUE
 pgresult_res_status(VALUE self, VALUE status)
 {
-	VALUE ret = rb_tainted_str_new2(PQresStatus(NUM2INT(status)));
+	VALUE ret = rb_str_new2(PQresStatus(NUM2INT(status)));
 	PG_ENCODING_SET_NOCHECK(ret, ENCODING_GET(self));
 	return ret;
 }
@@ -345,7 +345,7 @@ pgresult_res_status(VALUE self, VALUE status)
 static VALUE
 pgresult_error_message(VALUE self)
 {
-	VALUE ret = rb_tainted_str_new2(PQresultErrorMessage(pgresult_get(self)));
+	VALUE ret = rb_str_new2(PQresultErrorMessage(pgresult_get(self)));
 	PG_ENCODING_SET_NOCHECK(ret, ENCODING_GET(self));
 	return ret;
 }
@@ -405,7 +405,7 @@ pgresult_error_field(VALUE self, VALUE field)
 	VALUE ret = Qnil;
 
 	if ( fieldstr ) {
-		ret = rb_tainted_str_new2( fieldstr );
+		ret = rb_str_new2( fieldstr );
 		PG_ENCODING_SET_NOCHECK( ret, ENCODING_GET(self ));
 	}
 
@@ -459,7 +459,7 @@ pgresult_fname(VALUE self, VALUE index)
 		rb_raise(rb_eArgError,"invalid field number %d", i);
 	}
 
-	fname = rb_tainted_str_new2(PQfname(result, i));
+	fname = rb_str_new2(PQfname(result, i));
 	PG_ENCODING_SET_NOCHECK(fname, ENCODING_GET(self));
 	return rb_obj_freeze(fname);
 }
@@ -760,7 +760,7 @@ pgresult_paramtype(VALUE self, VALUE param_number)
 static VALUE
 pgresult_cmd_status(VALUE self)
 {
-	VALUE ret = rb_tainted_str_new2(PQcmdStatus(pgresult_get(self)));
+	VALUE ret = rb_str_new2(PQcmdStatus(pgresult_get(self)));
 	PG_ENCODING_SET_NOCHECK(ret, ENCODING_GET(self));
 	return ret;
 }
