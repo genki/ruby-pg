@@ -65,7 +65,7 @@ pg_text_dec_boolean(t_pg_coder *conv, char *val, int len, int tuple, int field, 
 VALUE
 pg_text_dec_string(t_pg_coder *conv, char *val, int len, int tuple, int field, int enc_idx)
 {
-	VALUE ret = rb_tainted_str_new( val, len );
+	VALUE ret = rb_str_new( val, len );
 	PG_ENCODING_SET_NOCHECK( ret, enc_idx );
 	return ret;
 }
@@ -163,7 +163,7 @@ pg_text_dec_bytea(t_pg_coder *conv, char *val, int len, int tuple, int field, in
 
 	to = PQunescapeBytea( (unsigned char *)val, &to_len);
 
-	ret = rb_tainted_str_new((char*)to, to_len);
+	ret = rb_str_new((char*)to, to_len);
 	PQfreemem(to);
 
 	return ret;
@@ -373,7 +373,7 @@ pg_text_dec_from_base64(t_pg_coder *conv, char *val, int len, int tuple, int fie
 	t_pg_coder_dec_func dec_func = pg_coder_dec_func(this->elem, this->comp.format);
 	int decoded_len;
 	/* create a buffer of the expected decoded length */
-	VALUE out_value = rb_tainted_str_new(NULL, BASE64_DECODED_SIZE(len));
+	VALUE out_value = rb_str_new(NULL, BASE64_DECODED_SIZE(len));
 
 	decoded_len = base64_decode( RSTRING_PTR(out_value), val, len );
 	rb_str_set_len(out_value, decoded_len);

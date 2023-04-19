@@ -2715,7 +2715,7 @@ pgconn_get_copy_data(int argc, VALUE *argv, VALUE self )
 		t_pg_coder_dec_func dec_func = pg_coder_dec_func( p_coder, p_coder->format );
 		result =  dec_func( p_coder, buffer, ret, 0, 0, ENCODING_GET(self) );
 	} else {
-		result = rb_tainted_str_new(buffer, ret);
+		result = rb_str_new(buffer, ret);
 	}
 
 	PQfreemem(buffer);
@@ -3462,7 +3462,7 @@ pgconn_loread(VALUE self, VALUE in_lo_desc, VALUE in_len)
 		return Qnil;
 	}
 
-	str = rb_tainted_str_new(buffer, ret);
+	str = rb_str_new(buffer, ret);
 	xfree(buffer);
 
 	return str;
